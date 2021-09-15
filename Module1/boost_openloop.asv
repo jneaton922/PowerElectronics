@@ -17,7 +17,7 @@ R = Pout/(iout^2);
 IL = V/(Dprime*R);
 
 deltaiL = 0.02*IL; 
-L =  ( (Vg/2)*D*Ts )/deltaiL;
+L =  ( (Vg/2)*D*Ts ) /deltaiL;
 
 
 deltaV = 0.1;

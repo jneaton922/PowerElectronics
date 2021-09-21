@@ -4,22 +4,22 @@ clc
 
 % Input Parameters
 
-power = ;    % Converter output power
-Vout=;       % Converter output voltage
-VD = ;       % Device Blocking Voltage
-VGS = ;       % Peak applied Gate Voltage
-RG = ;        % Gate resistance
+power = linspace(100,500,10);    % Converter output power
+Vout= 120;       % Converter output voltage
+VD = 150;       % Device Blocking Voltage
+VGS = 15;       % Peak applied Gate Voltage
+RG = 10;        % Gate resistance
 IDONmax = ;       % Peak Main switch current at maximum power 
 k = 3.0139;      % Device Transconductance
 VTh = 5.4239;    % Device Threshold voltage
-trr = ;    % Diode Reverse Recovery Time
-Irr = ;        % diode peak reverse current during reverse recovery
-fsw = ;    % Switching Frequency
+trr = 35e-9;    % Diode Reverse Recovery Time
+Irr = 1;        % diode peak reverse current during reverse recovery
+fsw = 100e3;    % Switching Frequency
 di = ;         % Inductor Current Ripple 
-Rdson = ;    % MOSFET ON State Resistance
-Rindesr = ; % Equivalent series resistance of inductor
-von = ;      % Free Wheel Diode on state voltage
-D = ;       % Converter Duty cycle
+Rdson = 0.125;    % MOSFET ON State Resistance
+Rindesr = 0.005; % Equivalent series resistance of inductor
+von = 0.85;      % Free Wheel Diode on state voltage
+D = 0.6;      % Converter Duty cycle
 
 % Discritize the nonlinear device capacitance vs. device voltage curves
 % from the onstate voltage (VDon) up to including the blocking voltage (VD) as the
@@ -37,9 +37,9 @@ Cj = [236.5200  214.0512  174.2158  145.3770  128.3216  115.4065  107.0810  100.
 
 
 % Calculate MOSFET equivalent capacitances
-Cgd = ;
+Cgd =  Crss;
 Cgs = ;
-Cds = ;
+Cds = Coss - Cgd;
 
 % Loop current to calculate losses as a function of device current
 current = linspace(1,IDONmax,10);

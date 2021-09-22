@@ -9,7 +9,7 @@ Vout= 120;       % Converter output voltage
 VD = 120;       % Device Blocking Voltage
 VGS = 15;       % Peak applied Gate Voltage
 RG = 10;        % Gate resistance
-IDONmax = 10.4;       % Peak Main switch current at maximum power 
+IDONmax = 14.5;       % Peak Main switch current at maximum power 
 k = 3.0139;      % Device Transconductance
 VTh = 5.4239;    % Device Threshold voltage
 trr = 35e-9;    % Diode Reverse Recovery Time
@@ -52,7 +52,7 @@ for loop=1:length(current) % Begin Loop
     IDON = current(loop);
 
     % Calculate Miller Capacitance
-    Vmiller = VTh + sqrt(IDON/k) + 0.0015;
+    Vmiller = VTh + sqrt(IDON/k);
 
     % Calcualte trajectory times
 
@@ -66,14 +66,14 @@ for loop=1:length(current) % Begin Loop
     tru = (RG * trapz(voltage,Cgd))/Vmiller;
 
     % Calculate Cross over Energy Loss
-    Won = 0.5 * tr * vd * IDON + 0.5*tfu*vd*IDON;
-    Woff = 0.5 * tru * vd *IDON + 0.5*tf*vd*IDON;
+    Won = 0.5 * vd * IDON + 0.5*tfu*vd*IDON;
+    Woff = 0.5 * vd *IDON + 0.5*tf*vd*IDON;
 
     % Calculate CV^2 Loss
 
-    Cosser = 2*trapz(voltage, (Coss.*voltage))/((vd*vd)-(vdon*vdon));
-    Cjer = 2* trapz(voltage,Cj .* voltage) / ((vd*vd) - (vdon*vdon));
-    Wc = 0.5 * (Cosser + Cjer) * ((vd*vd) - (vdon*vdon));
+    Cosser = 2*trapz(voltage, (coss.*voltage)/((vd*vd)-(vdon*vdon));
+    Cjer = 2* ;
+    Wc = ;
 
     % Calculate recovery loss
     Qrr = 0.5*trr*Irr;
@@ -81,22 +81,22 @@ for loop=1:length(current) % Begin Loop
 
     % Calculate total switching loss
     Wmsw = Won+Woff+Wrr+Wc;
-    pswavg = fsw*Wmsw;
+    pswavg = ;
 
     % Calculate Conduction Loss
-    pcavg = (1/3) * Rdson * D * (3*(IDON*IDON) + (di*di));
-    pcdiode = (1-D) * von * (Vout/power(loop));
+    pcavg = ;
+    pcdiode = ;
 
     % Calculate Conduction Loss of Inductor
-    Iindrms = IDON * sqrt ( 1 + (1/3) * ((di/IDON) * (di/IDON)));
-    pindcopper = Iindrms*Iindrms * Rindesr;
+    Iindrms = ;
+    pindcopper = ;
     pcore = pindcopper;
 
     % Total loss
     ploss(loop) = pcdiode+pcavg+pswavg+pindcopper+pcore;
 
     % Efficiency
-    iout(loop) = (1-D)*IDON; % Map IDON to iout
+    iout(loop) = ; % Map IDON to iout
     power(loop) = iout(loop)*Vout;
     eff(loop) = power(loop)/( power(loop) + ploss(loop) );
 

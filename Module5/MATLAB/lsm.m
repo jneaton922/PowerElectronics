@@ -16,7 +16,7 @@ irip = 0.05*Iout;
 
 Rl = V/Iout;
 
-L = (Vg*D*Ts)/(2*irip);
+L = ((Vg - V) / (2*irip)) * D * Ts;
 
-C = (Vg*D*D*Ts)/(2*(1-D)*Rl*vrip);
+C = ( irip * Ts ) / (8 * vrip);
 

@@ -1,0 +1,35 @@
+converter output is a function of two disturbances, 
+load current/input voltage and the  control input D
+
+typical input voltage variation ~100 Hz 
+typical load between 50 and 100% of nominal
+
+typically output voltage +/- ~some percentage/mV
+
+use negative feedback!
+
+Basics of Control:
+
+"Plant" G(s) transfer function
+    - the 'thing' we're trying to control
+
+open-loop = input->output, no feedback
+closed-loop = feedback
+
+input = x(s), output y(s)
+x = K(s)*err
+
+H(s) feedback sensor/filter/etc pass outpu back to input
+through comparison to some ref
+    err(s) = yref(s) - H(s)y(s)
+    (yref - yh)KG = y
+
+    y/yref = KG/(1+HKG)
+
+goal is to make y/yref = 1, so KG = 1 + HKG
+    - HKG is "open loop gain" === T(s)
+
+    for large T y/yref ~= 1/H, H is just a gain scaler
+
+
+

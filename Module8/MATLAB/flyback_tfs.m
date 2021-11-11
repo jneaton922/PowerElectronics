@@ -22,11 +22,11 @@ Dprime = 1-D;
 Ip = Vg/Lm * D * Ts;
 I = Vg * (D * (Ip/2)/V);
 
-Rout = V / I;
-
+Iout = P/V;
+Rout = (V^2) / P;
 
 % transfer functions
-s =tf('s'); % s = jw
+s = tf('s'); % s = jw
 
 %line to output Gvg
 Ggo =  D * n / Dprime;

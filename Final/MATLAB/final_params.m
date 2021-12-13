@@ -1,10 +1,13 @@
+close all
+clc
 
 % GIVEN PARAMETERS
     
     % flyback
-    n1 = 7; n2 = 2;
+    np = 7; n1 = 2;
     Lmag = 106e-6;
     fsw = 100e3;
+    Ts = 1/fsw;
     
     % input filter
     Lfilt = 10.2e-3;
@@ -41,15 +44,16 @@ cond_loss_diode = (Idiode_avg)*diode_Vf;
 % flyback calcs
 Vin = Vg;
 V_interm = 48;
-n = n2/n1;
+n = n1/np;
 % (V/Vg) = n(D/Dp)
 D_flyback = (V_interm)/(n*Vg + V_interm);
-D_notes_peak = 1 / ( ((Vg*n2)/(V_interm*n1)) +1);
+D_notes_peak = 1 / ( ((Vg*n1)/(V_interm*n1)) +1);
 
-D_ss = ( 2 * sqrt((Lmag*Pload)/Ts) ) / 170;
+
+D_ss = ( 2 * sqrt((Lmag*Pload)/(Ts)) ) / Vin;
+
 
 % filter Q
-Ts = 1/fsw;
 Re = (2*Lmag)/((D_ss^2)*Ts);
 Q_filt = Re*sqrt(Cfilt/Lfilt);
 
@@ -63,3 +67,35 @@ Gvd_mag = 20;
 
 v_perturb = 10^(Gvd_mag/20);
 vmax = V_interm + v_perturb;
+
+% storage Cap
+t_hold = (1/freq_in) * 3; % 3 line cycles
+
+Vin_min = V/D_max_buck;
+
+% Pload = E/t = (1/2)Cstorage(V1^2 - V2^2)/t_hold
+C_storage = 2*Pload*t_hold/(V_interm^2 - Vin_min^2);
+
+% control loop design
+Vref = 2.5;
+Vm = 2;
+s = tf('s');
+Ho = Vref/V_interm;
+w_lpf = (1/10)*fsw*2*pi;
+
+Htf = Ho*(w_lpf)/(s+w_lpf);
+
+
+
+Gco = 10;
+% ki(skp/ki + 1) /s
+wz = 1/0.076;
+ki = Gco;
+kp = (1/wz)*ki;
+
+Gc = ki*(1+(kp/ki)*s) / s;
+
+
+bode(gvd*Gc*Htf);
+h=gcr;
+setoptions(h,'FreqUnits','Hz');
